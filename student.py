@@ -7,8 +7,8 @@ class Student:
         self.present = present
         self.weight = weight
     
-    def weight_estimate(self, v):
-        return WEIGHT_CONST * v**self.interrogations
+    def weight_estimate(self, speed):
+        return WEIGHT_CONST * speed**self.interrogations
     
     def percentage(self, total_weight):
         return self.weight/total_weight * 100

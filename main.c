@@ -194,7 +194,7 @@ char classe(char nomefile[LUNG]) {
                     while (getchar() != '\n');
                 }
             } while (classe < 1 || classe > 5);
-            nomefile[0] = (classe + 48);
+            nomefile[0] = (classe + '0');
             nomefile[1] = '\0';
 
             scanf("%9s", sezione);

@@ -1,15 +1,19 @@
+WEIGHT_CONST = 1000
+
 class Student:
-    def __init__(self, surname, name, interrogations, present=True):
+    def __init__(self, name, interrogations, weight = 0, present=True):
         self.name = name
-        self.surname = surname
         self.interrogations = interrogations
         self.present = present
+        self.weight = weight
     
-    def weight_estimate(self, k, v):
-
-        return k * v**self.interrogations
+    def weight_estimate(self, v):
+        return WEIGHT_CONST * v**self.interrogations
+    
+    def percentage(self, total_weight):
+        return self.weight/total_weight * 100
     
     def __str__(self):
-        return "{0:30} {1}".format(self.surname+' '+self.name, self.interrogations)
+        return "{0:30} {1}".format(self.name, self.interrogations)
         #printf("#%3d\t%-30s%d\t\t%s\t%5.4f%%\n", i + 1, vet[i], calls[i], spazi, chance[i]);
         

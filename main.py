@@ -1,4 +1,4 @@
-import student
+from student import Student
 
 def get_filename():
     """
@@ -8,7 +8,7 @@ def get_filename():
     class_name=input("In che classe ti trovi?")
     section_name=input("In che sezione ti trovi?").upper()
 
-    filename=class_name+section_name+".txt"
+    filename=class_name+section_name+".csv"
     try:
         f=open(filename, "r")
         f.close()
@@ -18,6 +18,10 @@ def get_filename():
     return filename
 
 def initialize(filename):
+    """
+    INPUT: filename
+    DOCSTRING: Richiede numero di studenti, velocità e Nome (e cognome) di ogni studente
+    """
     n_students = int(input("Quanti studenti ci sono nella tua classe?"))
     
     print("Inserisci ora l'elenco degli alunni nel formato 'Cognome Nome'")
@@ -28,8 +32,40 @@ def initialize(filename):
     speed = 1 - (temp-1)/10     #ad 1 associo 1, a 10 associo 0.1
 
     with open(filename, "w") as f:
-        f.write(str(speed)+' '+str(n_students)+'\n')
+        f.write(str(speed)+'\n')
         for student in students:
-            f.write('0 '+student.strip().title()+'\n')
+            f.write('0;'+student.strip().title()+'\n')
 
-get_filename()
+def weights_estimate(students, speed):
+    """
+    INPUT: Lista di studenti, speed
+    DOCSTRING: Calcola i pesi di ogni studente e li assegna al parametro .weight
+    OUTPUT: total_weight (relativo solo ai presenti)
+    """
+    total_weight = 0
+    for student in students:
+        student.weight = student.weight_estimate(speed)
+        total_weight += student.weight * student.present
+    return total_weight 
+        
+def students_list(filename):
+    """
+    INPUT: filename
+    DOCSTRING: Acquisisce da file numero di studenti, velocità e nome (e cognome) di ogni studente
+    OUTPUT: (speed, students_list) #tuple
+    """
+    students=[]
+    speed = float()
+    with open(filename, "r") as f:
+        speed = float(f.readline())
+        for line in f:
+            splitted_line = line.split(';')
+            students.append(Student(splitted_line[1], int(splitted_line[0])))
+    
+    return speed, students
+
+
+
+
+
+filename=get_filename()

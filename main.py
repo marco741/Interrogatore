@@ -52,7 +52,7 @@ def students_list(filename):
     """
     INPUT: filename
     DOCSTRING: Acquisisce da file numero di studenti, velocità e nome (e cognome) di ogni studente
-    OUTPUT: (speed, students_list) #tuple
+    OUTPUT: (students_list, speed) #tuple
     """
     students=[]
     speed = float()
@@ -60,12 +60,15 @@ def students_list(filename):
         speed = float(f.readline())
         for line in f:
             splitted_line = line.split(';')
-            students.append(Student(splitted_line[1], int(splitted_line[0])))
+            students.append(Student(splitted_line[1].strip(), int(splitted_line[0])))
     
-    return speed, students
+    return students, speed
 
 
 
+filename = get_filename()
+students, speed = students_list(filename)
+total_weight = weights_estimate(students, speed)
 
-
-filename=get_filename()
+for student in students:
+    print("{0}{1:-10}%".format(student, student.percentage(total_weight)))

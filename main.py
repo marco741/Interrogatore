@@ -1,5 +1,6 @@
 from student import Student
 from random import randint
+from os import system
 
 def get_filename():
     """
@@ -80,10 +81,30 @@ def students_print(students):
     """
     INPUT: students
     DOCSTRING: Stampa una matrice con tutti gli studenti
+    OUTPUT: Numero di studenti stampati
     """
+    system("cls")
     tw=total_weight(students)
-    for i,student in enumerate(students):
-        print("# {0:<2}{1}{2:<4}{3:2.2f} %  {4}".format(i+1, student, student.interrogations, student.percentage(tw), speed))
+    n_printed=0
+    for i, student in enumerate(students):
+        if student.present:
+            n_printed += 1
+            print("# {0:<2}{1}{2:<4}{3:2.2f} %  {4}".format(i + 1, student, student.interrogations, student.percentage(tw), speed))
+    return n_printed
+
+def absent(students):
+    """
+    INPUT: students
+    DOCSTRING: setta il parametro "present" degli studenti non presenti a False
+    """
+
+    student_id = 1
+    while students_print(students) > 1 and student_id != 0:
+        print("Inserisci il numero identificativo degli studenti assenti, 0 per terminare l'inserimento:")
+        student_id =  int(input(">"))
+        if student_id != 0:
+            students[student_id-1].present = False
+    print("Inserimento assenti completato con successo")
 
 def call(students):
     """
@@ -103,6 +124,6 @@ filename = get_filename()
 students = load_file(filename)
 students_print(students)
 
+absent(students)
 call(students)
-students_print(students)
 save_file(filename)

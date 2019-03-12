@@ -89,7 +89,7 @@ def students_print(students):
     for i, student in enumerate(students):
         if student.present:
             n_printed += 1
-            print("# {0:<2}{1}{2:<4}{3:2.2f} %  {4}".format(i + 1, student, student.interrogations, student.percentage(tw), speed))
+            print("# {0:<2}{1}{2:<4}{3:>5.2f} %  {4}".format(i + 1, student, student.interrogations, student.percentage(tw), speed))
     return n_printed
 
 def absent(students):
@@ -122,7 +122,55 @@ def call(students):
 
 filename = get_filename()
 students = load_file(filename)
-students_print(students)
+
+#DA INTERNET
+menu = {}
+menu['1']="Add Student." 
+menu['2']="Delete Student."
+menu['3']="Find Student"
+menu['4']="Exit"
+system("cls")
+while True: 
+    options=menu.keys()
+    for entry in options: 
+        print(entry, menu[entry])
+    selection = input("Please Select:")     
+    system("cls")
+    if selection =='1': 
+        print("add") 
+    elif selection == '2': 
+        print("delete")
+    elif selection == '3':
+        print("find") 
+    elif selection == '4': 
+        break
+    else: 
+        print("Unknown Option Selected!") 
+###############################################
+
+#SEMPRE DA INTERNET
+ans=True
+while ans:
+    print ("""
+    1.Add a Student
+    2.Delete a Student
+    3.Look Up Student Record
+    4.Exit/Quit
+    """)
+    ans=input("What would you like to do?")
+    system("cls")
+    if ans=="1": 
+        print("\n Student Added") 
+    elif ans=="2":
+        print("\n Student Deleted") 
+    elif ans=="3":
+        print("\n Student Record Found") 
+    elif ans=="4":
+        print("\n Goodbye") 
+        break
+    elif ans !="":
+        print("\n Not Valid Choice Try again") 
+###############################################
 
 absent(students)
 call(students)

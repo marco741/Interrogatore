@@ -36,15 +36,15 @@ def initialize(filename):
         for student in students:
             f.write('0;'+student.strip().title()+'\n')
 
-def weights_estimate(students, speed):
+def weights_estimate(students):
     """
-    INPUT: Lista di studenti, speed
+    INPUT: Lista di studenti
     DOCSTRING: Calcola i pesi di ogni studente e li assegna al parametro .weight
     OUTPUT: total_weight (relativo solo ai presenti)
     """
     total_weight = 0
     for student in students:
-        student.weight = student.weight_estimate(speed)
+        student.weight_estimate()
         total_weight += student.weight * student.present
     return total_weight 
         
@@ -52,7 +52,7 @@ def students_list(filename):
     """
     INPUT: filename
     DOCSTRING: Acquisisce da file numero di studenti, velocità e nome (e cognome) di ogni studente
-    OUTPUT: (students_list, speed) #tuple
+    OUTPUT: students_list
     """
     students=[]
     speed = float()
@@ -62,13 +62,13 @@ def students_list(filename):
             splitted_line = line.split(';')
             students.append(Student(splitted_line[1].strip(), int(splitted_line[0])))
     
-    return students, speed
+    return students
 
 
 
 filename = get_filename()
-students, speed = students_list(filename)
-total_weight = weights_estimate(students, speed)
+students = students_list(filename)
+total_weight = weights_estimate(students)
 
 for student in students:
     print("{0}{1:-10}%".format(student, student.percentage(total_weight)))

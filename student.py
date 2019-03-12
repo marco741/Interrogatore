@@ -7,10 +7,18 @@ class Student:
         self.present = present
         self.weight = weight
     
-    def weight_estimate(self, speed):
-        return WEIGHT_CONST * speed**self.interrogations
+    def weight_estimate(self):
+        """
+        DOCSTRING: Calcola i pesi del singolo studente sfruttando 
+        """
+        self.weight = WEIGHT_CONST * speed**self.interrogations
     
     def percentage(self, total_weight):
+        """
+        INPUT: total_weight
+        DOCSTRING: Calcola la probabilità di uno studente di essere estratto
+        OUTPUT: percentage
+        """
         return self.weight/total_weight * 100
     
     def __str__(self):

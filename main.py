@@ -47,7 +47,7 @@ def total_weight(students):
     for student in students:
         student.weight_estimate(speed)
         total_weight += student.weight * student.present
-    return total_weight 
+    return int(total_weight) 
         
 def load_file(filename):
     """

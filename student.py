@@ -26,8 +26,6 @@ class Student:
         DOCSTRING: Aumenta di uno il numero di interrogazioni del singolo studente
         """
         self.interrogations+=1
-
     def __str__(self):
-        return self.name
-        #printf("#%3d\t%-30s%d\t\t%s\t%5.4f%%\n", i + 1, vet[i], calls[i], spazi, chance[i]);
+        return "{0:30}".format(self.name)
         

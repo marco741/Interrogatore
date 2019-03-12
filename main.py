@@ -32,7 +32,7 @@ def initialize(filename):
     temp = int(input("Inserisci la velocità di interrogazioni in una scala da 1 a 10 (consigliato 7):\n> "))
     speed = 1 - (temp-1)/10     #ad 1 associo 1, a 10 associo 0.1
 
-    with open(filename, "w") as f:
+    with open(filename, "w") as f:  #Salvo su file
         f.write(str(speed)+'\n')
         for student in students:
             f.write('0;'+student.strip().title()+'\n')
@@ -49,7 +49,7 @@ def total_weight(students):
         total_weight += student.weight * student.present
     return total_weight 
         
-def students_list(filename):
+def load_file(filename):
     """
     INPUT: filename
     DOCSTRING: Acquisisce da file numero di studenti, velocità e nome (e cognome) di ogni studente
@@ -82,13 +82,16 @@ def call(students):
     """
     random_number = randint(1, total_weight(students) )
     for student in students:
-        if students.present and random_number > student.weight:
-            random_number -= student.weight
-        else:
-            print(f"{student.name} è stato interrogato")
-            student.extracted()
+        if student.present :
+            if random_number > student.weight:
+                random_number -= student.weight
+            else: break
+    print(f"{student.name} è stato interrogato")
+    student.extracted()
 
 filename = get_filename()
-students = students_list(filename)
+students = load_file(filename)
 students_print(students)
 
+call(students)
+students_print(students)

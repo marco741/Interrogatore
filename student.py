@@ -1,4 +1,4 @@
-WEIGHT_CONST = 1000
+from config import *
 
 class Student:
     def __init__(self, name, interrogations, weight = 0, present=True):

@@ -32,7 +32,7 @@ def initialize(filename):
     temp = int(input("Inserisci la velocità di interrogazioni in una scala da 1 a 10 (consigliato 7):\n> "))
     speed = 1 - (temp-1)/10     #ad 1 associo 1, a 10 associo 0.1
 
-    with open(filename, "w") as f:  #Salvo su file
+    with open(filename, "w") as f:  #Primo salvataggio su file
         f.write(str(speed)+'\n')
         for student in students:
             f.write('0;'+student.strip().title()+'\n')
@@ -66,6 +66,16 @@ def load_file(filename):
     
     return students
 
+def save_file(filename):
+    """
+    INPUT: filename
+    DOCSTRING: Salva su file velocità e nome (e cognome) di ogni studente
+    """
+    with open(filename, "w") as f:
+        f.write(str(speed)+'\n')
+        for student in students:
+            f.write(str(student.interrogations)+';'+student.name+'\n')
+
 def students_print(students):
     """
     INPUT: students
@@ -95,3 +105,4 @@ students_print(students)
 
 call(students)
 students_print(students)
+save_file(filename)

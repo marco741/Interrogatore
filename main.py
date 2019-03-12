@@ -73,7 +73,7 @@ def students_print(students):
     """
     tw=total_weight(students)
     for i,student in enumerate(students):
-        print("# {0:<2}{1}{2:2.2f} %  {3}".format(i+1, student, student.percentage(tw), speed))
+        print("# {0:<2}{1:30}{2:<4}{3:2.2f} %  {4}".format(i+1, student.name, student.interrogations, student.percentage(tw), speed))
 
 def call(students):
     """

@@ -28,6 +28,6 @@ class Student:
         self.interrogations+=1
 
     def __str__(self):
-        return "{0:30}{1:^5}".format(self.name, self.interrogations)
+        return f"{self.name}"
         #printf("#%3d\t%-30s%d\t\t%s\t%5.4f%%\n", i + 1, vet[i], calls[i], spazi, chance[i]);
         

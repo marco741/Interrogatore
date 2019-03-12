@@ -1,4 +1,5 @@
 from student import Student
+from random import randint
 
 def get_filename():
     """
@@ -53,7 +54,7 @@ def students_list(filename):
     INPUT: filename
     DOCSTRING: Acquisisce da file numero di studenti, velocità e nome (e cognome) di ogni studente
                 Modifica speed
-    OUTPUT: students_list
+    OUTPUT: students
     """
     students=[]
     global speed
@@ -66,9 +67,26 @@ def students_list(filename):
     return students
 
 def students_print(students):
+    """
+    INPUT: students
+    DOCSTRING: Stampa una matrice con tutti gli studenti
+    """
     tw=total_weight(students)
     for i,student in enumerate(students):
         print("# {0:<2}{1}{2:2.2f} %  {3}".format(i+1, student, student.percentage(tw), speed))
+
+def call(students):
+    """
+    INPUT: students
+    DOCSTRING: Estrae a sorte uno studente ed incrementa di 1 il suo numero di interrogazioni ricevute
+    """
+    random_number = randint(1, total_weight(students) )
+    for student in students:
+        if students.present and random_number > student.weight:
+            random_number -= student.weight
+        else:
+            print(f"{student.name} è stato interrogato")
+            student.extracted()
 
 filename = get_filename()
 students = students_list(filename)

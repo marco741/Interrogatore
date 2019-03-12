@@ -5,8 +5,8 @@ def get_filename():
     DOCSTRING: Controlla se il file di classe è presente nella cartella. Se non è presente lo inizializza.
     OUTPUT: filename
     """
-    class_name=input("In che classe ti trovi?")
-    section_name=input("In che sezione ti trovi?").upper()
+    class_name=input("In che classe ti trovi?\n> ")
+    section_name=input("In che sezione ti trovi?\n> ").upper()
 
     filename=class_name+section_name+".csv"
     try:
@@ -22,13 +22,13 @@ def initialize(filename):
     INPUT: filename
     DOCSTRING: Richiede numero di studenti, velocità e Nome (e cognome) di ogni studente
     """
-    n_students = int(input("Quanti studenti ci sono nella tua classe?"))
+    n_students = int(input("Quanti studenti ci sono nella tua classe?\n> "))
     
     print("Inserisci ora l'elenco degli alunni nel formato 'Cognome Nome'")
-    students=[input() for _ in range(n_students)]
+    students=[input(f"{i+1}> ") for i in range(n_students)]
     students.sort()
 
-    temp = int(input("Inserisci la velocità di interrogazioni in una scala da 1 a 10 (consigliato 7)"))
+    temp = int(input("Inserisci la velocità di interrogazioni in una scala da 1 a 10 (consigliato 7):\n> "))
     speed = 1 - (temp-1)/10     #ad 1 associo 1, a 10 associo 0.1
 
     with open(filename, "w") as f:
@@ -36,7 +36,7 @@ def initialize(filename):
         for student in students:
             f.write('0;'+student.strip().title()+'\n')
 
-def weights_estimate(students):
+def total_weight(students):
     """
     INPUT: Lista di studenti
     DOCSTRING: Calcola i pesi di ogni studente e li assegna al parametro .weight
@@ -44,7 +44,7 @@ def weights_estimate(students):
     """
     total_weight = 0
     for student in students:
-        student.weight_estimate()
+        student.weight_estimate(speed)
         total_weight += student.weight * student.present
     return total_weight 
         
@@ -52,10 +52,11 @@ def students_list(filename):
     """
     INPUT: filename
     DOCSTRING: Acquisisce da file numero di studenti, velocità e nome (e cognome) di ogni studente
+                Modifica speed
     OUTPUT: students_list
     """
     students=[]
-    speed = float()
+    global speed
     with open(filename, "r") as f:
         speed = float(f.readline())
         for line in f:
@@ -64,11 +65,12 @@ def students_list(filename):
     
     return students
 
-
+def students_print(students):
+    tw=total_weight(students)
+    for i,student in enumerate(students):
+        print("# {0:<2}{1}{2:2.2f} %  {3}".format(i+1, student, student.percentage(tw), speed))
 
 filename = get_filename()
 students = students_list(filename)
-total_weight = weights_estimate(students)
+students_print(students)
 
-for student in students:
-    print("{0}{1:-10}%".format(student, student.percentage(total_weight)))

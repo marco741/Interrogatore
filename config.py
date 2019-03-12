@@ -1,2 +1,1 @@
 WEIGHT_CONST = 1000
-speed = 1

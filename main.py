@@ -84,12 +84,16 @@ def students_print(students):
     OUTPUT: Numero di studenti stampati
     """
     system("cls")
+    print("{:-^70}".format(""))
+    print("{:*^70}".format(" Classe "+filename[:-4]+" "))
+    print("{:-^70}".format(""))
+    print("   {:6}{:30}{:20}{:11}".format("No", "Cognome Nome", "Interrogazioni", "Probabilità"))
     tw=total_weight(students)
     n_printed=0
     for i, student in enumerate(students):
         if student.present:
             n_printed += 1
-            print("# {0:<2}{1}{2:<4}{3:>5.2f} %  {4}".format(i + 1, student, student.interrogations, student.percentage(tw), speed))
+            print("#{0:>3}{1:5}{2}{3:<20}{4:>5.2f} %".format(i + 1, "", student, student.interrogations, student.percentage(tw)))
     return n_printed
 
 def absent(students):
@@ -122,9 +126,7 @@ def call(students):
             else: break
     print(f"{student.name} è stato interrogato")
     student.extracted()
-
-filename = get_filename()
-students = load_file(filename)
+    input("Premi invio per continuare.")
 
 def modify_speed(students):
     """
@@ -135,16 +137,31 @@ def modify_speed(students):
     temp = int(input("Inserisci la nuova velocità di interrogazioni in una scala da 1 a 10:\n> "))
     speed = 1 - (temp-1)/10     #ad 1 associo 1, a 10 associo 0.1
     
+def reset_interrogations(students):
+    """
+    INPUT: students
+    DOCSTRING: Reinizializza le interrogazioni di tutti gli studenti
+    """
+    for student in students:
+        student.interrogations = 0
+    
 
+filename = get_filename()
+students = load_file(filename)
 #DA INTERNET
 menu = {}
 menu['1']="Interroga." 
 menu['2']="Inserisci Assenti."
 menu['3']="Modifica Velocità Interrogazioni."
-menu['4']="Exit"
+menu['4']="Azzera Numero Interrogazioni"
+menu['5']="Exit"
 system("cls")
 options = menu.keys()
-while True: 
+selection = 0
+while students_print(students) > 1: 
+    print("{:-^70}".format(""))
+    print("{:*^70}".format(" Menù "))
+    print("{:-^70}".format(""))
     for entry in options: 
         print(entry, menu[entry])
     selection = input("Please Select:\n>")     
@@ -157,6 +174,8 @@ while True:
     elif selection == '3':
         modify_speed(students)
     elif selection == '4': 
+        reset_interrogations(students)
+    elif selection == '5': 
         break
     else: 
         print("Unknown Option Selected!") 

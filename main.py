@@ -95,9 +95,11 @@ def students_print(students):
 def absent(students):
     """
     INPUT: students
-    DOCSTRING: setta il parametro "present" degli studenti non presenti a False
+    DOCSTRING: resetta il parametro "present" di tutti gli studenti a True e poi
+                setta il parametro "present" degli studenti non presenti a False
     """
-
+    for student in students:
+        student.present=True
     student_id = 1
     while students_print(students) > 1 and student_id != 0:
         print("Inserisci il numero identificativo degli studenti assenti, 0 per terminare l'inserimento:")
@@ -111,6 +113,7 @@ def call(students):
     INPUT: students
     DOCSTRING: Estrae a sorte uno studente ed incrementa di 1 il suo numero di interrogazioni ricevute
     """
+    students_print(students)
     random_number = randint(1, total_weight(students) )
     for student in students:
         if student.present :
@@ -123,55 +126,63 @@ def call(students):
 filename = get_filename()
 students = load_file(filename)
 
+def modify_speed(students):
+    """
+    INPUT: students
+    DOCSTRING: Modifica la velocità di interrogazioni attuale
+    """
+    global speed
+    temp = int(input("Inserisci la nuova velocità di interrogazioni in una scala da 1 a 10:\n> "))
+    speed = 1 - (temp-1)/10     #ad 1 associo 1, a 10 associo 0.1
+    
+
 #DA INTERNET
 menu = {}
-menu['1']="Add Student." 
-menu['2']="Delete Student."
-menu['3']="Find Student"
+menu['1']="Interroga." 
+menu['2']="Inserisci Assenti."
+menu['3']="Modifica Velocità Interrogazioni."
 menu['4']="Exit"
 system("cls")
+options = menu.keys()
 while True: 
-    options=menu.keys()
     for entry in options: 
         print(entry, menu[entry])
-    selection = input("Please Select:")     
+    selection = input("Please Select:\n>")     
     system("cls")
+    print(menu[selection])
     if selection =='1': 
-        print("add") 
-    elif selection == '2': 
-        print("delete")
+        call(students)
+    elif selection == '2':
+        absent(students) 
     elif selection == '3':
-        print("find") 
+        modify_speed(students)
     elif selection == '4': 
         break
     else: 
         print("Unknown Option Selected!") 
+    save_file(filename)
 ###############################################
 
-#SEMPRE DA INTERNET
-ans=True
-while ans:
-    print ("""
-    1.Add a Student
-    2.Delete a Student
-    3.Look Up Student Record
-    4.Exit/Quit
-    """)
-    ans=input("What would you like to do?")
-    system("cls")
-    if ans=="1": 
-        print("\n Student Added") 
-    elif ans=="2":
-        print("\n Student Deleted") 
-    elif ans=="3":
-        print("\n Student Record Found") 
-    elif ans=="4":
-        print("\n Goodbye") 
-        break
-    elif ans !="":
-        print("\n Not Valid Choice Try again") 
-###############################################
-
-absent(students)
-call(students)
-save_file(filename)
+##SEMPRE DA INTERNET
+#ans = True
+#while ans:
+#    print ("""
+#    1.Add a Student
+#    2.Delete a Student
+#    3.Look Up Student Record
+#    4.Exit/Quit
+#    """)
+#    ans=input("What would you like to do?")
+#    system("cls")
+#    if ans=="1": 
+#        print("\n Student Added") 
+#    elif ans=="2":
+#        print("\n Student Deleted") 
+#    elif ans=="3":
+#        print("\n Student Record Found") 
+#    elif ans=="4":
+#        print("\n Goodbye") 
+#        break
+#    elif ans !="":
+#        print("\n Not Valid Choice Try again") 
+################################################

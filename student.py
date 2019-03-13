@@ -23,9 +23,11 @@ class Student:
     
     def extracted(self):
         """
-        DOCSTRING: Aumenta di uno il numero di interrogazioni del singolo studente
+        DOCSTRING: Aumenta di uno il numero di interrogazioni del singolo studente e lo imposta assente
         """
         self.interrogations+=1
+        self.present = False
+        
     def __str__(self):
         return "{0:30}".format(self.name)
         

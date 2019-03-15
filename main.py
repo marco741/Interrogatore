@@ -7,10 +7,9 @@ def get_filename():
     DOCSTRING: Controlla se il file di classe è presente nella cartella. Se non è presente lo inizializza.
     OUTPUT: filename
     """
-    class_name=input("In che classe ti trovi?\n> ")
-    section_name=input("In che sezione ti trovi?\n> ").upper()
+    class_name=input("In che classe ti trovi?\n> ").upper()
 
-    filename=class_name+section_name+".csv"
+    filename=class_name+".csv"
     try:
         f=open(filename, "r")
         f.close()
@@ -166,7 +165,8 @@ while students_print(students) > 1:
         print(entry, menu[entry])
     selection = input("Please Select:\n>")     
     system("cls")
-    print(menu[selection])
+    if selection in menu:
+        print(menu[selection])
     if selection =='1': 
         call(students)
     elif selection == '2':

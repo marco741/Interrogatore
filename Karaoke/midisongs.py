@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import os
 import errno
 import string
+import urllib
 
 def make_sure_path_exists(path):
     try:
@@ -10,42 +11,58 @@ def make_sure_path_exists(path):
         if exception.errno != errno.EEXIST:
             raise
 
-with open("basi_karaoke.htm", "r") as request:
-    temp = ''
+with open("basi_karaoke.html", "r") as request:
+    text = ''
     for line in request:
-        temp += line
-    soup = BeautifulSoup(temp, 'lxml')
-    print(soup)
+        text += line
 
-#with open('prova', 'w') as f:
-#    f.write(str(soup.body.find_all('table')[5]))
 
-columns = soup.body.find_all('table')[5].tr.find_all('td')
-# vedi l'html, sto facendo in modo che in columns ci sia nome cartella, nome file e directory
 count = 0
-
-# aspe ti sto chiamando, che senò non capisco un cazzo
-# su 'li' ci sta il nome della cartella, in 'ul' ci sta il link e il nome del file
-for column in columns:
-    for folder_name, songs in zip(column.find_all('li', id='foldheader'), column.find_all('ul', id='foldinglist')):
-        print('D:/midi/'+folder_name.font.text + '\n')
-
-"""
-    for cartella, titolo in canzoni:
-        # Questo qui sotto si deve cambiare, ma non so come
-        canzoni = [tuple([ele['href'], ele.text]) for ele in soup.body.find_all('table')[5].find_all('a')]
-        # ^^^
-        
-        path='D:/midi/'+cartella.split('/')[1]
+path = ''
+for i in range(len(text)):
+    # Cerca "foldheader"
+    if text[i:i+len('foldheader')] == 'foldheader':
+        cartella = ''
+        i += len('foldheader') + 5
+        while(text[i]!='>'):
+            i += 1
+        i += 1
+        while(text[i]!='<'):
+            cartella += text[i]
+            i += 1
+        path = "D:/midi/" + cartella
+        path=path.replace('"', '')
         make_sure_path_exists(path)
-        url = 'http://www.vittoriain.it/'+cartella
-        url=url.replace(' ', '%20')
+        # Crea la cartella con il nome salvato
+    elif text[i:i+len('href')] == 'href':
+        # CERCO L'URL DEL MIDI
+        while text[i]!='"':
+            i += 1
+        i += 1
+        song_url = 'http://www.vittoriain.it/'
+        while text[i]!='"':
+            song_url += text[i]
+            i += 1
+        song_url=song_url.replace(' ', '%20')
+
+        # CERCO IL NOME DEL MIDI
+        song_name=''
+        while text[i]!='>' :
+            i += 1
+        i += 1
+        while text[i]!='<':
+            song_name += text[i]
+            i += 1
+        indirizzo=path+'/' + song_name + '.mid'
         try:
-            urllib.request.urlretrieve(url, path+'/'+titolo+'.mid')
+            urllib.request.urlretrieve(song_url, indirizzo)
+            #print(indirizzo)
         except:
-            print(url)
-            count+=1"""
-    
+            print(song_url)
+            count+=1
+
+ #       while text[i:i+len('</ul>')] != '</ul>':
+ #           while text[i:i+len('href')] != 'href':    
 #urllib.request.urlretrieve
 #print(soup.body.find_all('table')[5].find_all('a')[0]['href'])
 #url = 'http://www.vittoriain.it/midi/richieste/AC-DC--Thunderstruck-1990.mid'
